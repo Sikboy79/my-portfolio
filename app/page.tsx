@@ -13,28 +13,28 @@ export default function Home() {
   const scaleFactor: number = 1 / 20;
 
   // Shapes images
-  const shapes = [
-    "/assets/png-test1.jpg",
-    "/assets/imgshapeblue1.jpg",
-    "/assets/imgred1.jpg",
-    "/assets/imgshapeblue1.jpg",
-    "/assets/imgyellow.jpg",
-    "/assets/png-test1.jpg",
-    "/assets/imgred1.jpg",
-    "/assets/png-test1.jpg",
-    "/assets/imgshapeblue1.jpg",
-  ];
+  // const shapes = [
+  //   "/assets/png-test1.jpg",
+  //   "/assets/imgshapeblue1.jpg",
+  //   "/assets/imgred1.jpg",
+  //   "/assets/imgshapeblue1.jpg",
+  //   "/assets/imgyellow.jpg",
+  //   "/assets/png-test1.jpg",
+  //   "/assets/imgred1.jpg",
+  //   "/assets/png-test1.jpg",
+  //   "/assets/imgshapeblue1.jpg",
+  // ];
 
-  // Move shapes with mouse
-  const moveBackground = (event: MouseEventType) => {
-    const allShapes = document.querySelectorAll<HTMLElement>(".shape");
-    const x = event.clientX * scaleFactor;
-    const y = event.clientY * scaleFactor;
-    allShapes.forEach((shape, i) => {
-      const boolInt = i % 2 !== 0 ? -1 : 1;
-      shape.style.transform = `translate(${x * boolInt}px, ${y * boolInt}px)`;
-    });
-  };
+  // // Move shapes with mouse
+  // const moveBackground = (event: MouseEventType) => {
+  //   const allShapes = document.querySelectorAll<HTMLElement>(".shape");
+  //   const x = event.clientX * scaleFactor;
+  //   const y = event.clientY * scaleFactor;
+  //   allShapes.forEach((shape, i) => {
+  //     const boolInt = i % 2 !== 0 ? -1 : 1;
+  //     shape.style.transform = `translate(${x * boolInt}px, ${y * boolInt}px)`;
+  //   });
+  // };
 
   // Dark mode toggle
   const toggleContrast = () => {
@@ -67,7 +67,7 @@ export default function Home() {
         {/* Landing Page */}
         <section
           id="landing-page"
-          onMouseMove={moveBackground}
+          // onMouseMove={moveBackground}
           className="relative w-full min-h-screen overflow-hidden"
         >
           {/* Navbar */}
@@ -102,16 +102,18 @@ export default function Home() {
               <a href="/assets/David Bragg Resume.pdf" target="_blank" rel="noreferrer"><i className="fab fa-linkedin hover:text-blue-500"></i></a>
             </div>
           </header>
+          {/* 3D Card Holder */}
+        <ThreeDCardHolder />
 
           {/* Shapes */}
-          {shapes.map((src, i) => (
+          {/* {shapes.map((src, i) => (
             <img
               key={i}
               src={src}
               className={`shape absolute w-24 h-24 md:w-32 md:h-32 ${i % 2 === 0 ? "top-10 left-10" : "top-20 right-10"}`}
               alt={`Shape ${i}`}
             />
-          ))}
+          ))} */}
 
           {/* Scroll button */}
           <a href="#projects" className="absolute bottom-10 left-1/2 transform -translate-x-1/2 cursor-pointer z-20">
@@ -147,8 +149,6 @@ export default function Home() {
           </div>
         </section>
 
-        {/* 3D Card Holder */}
-        <ThreeDCardHolder />
 
         {/* Modal */}
         {isModalOpen && (
