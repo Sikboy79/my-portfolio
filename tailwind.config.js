@@ -10,7 +10,11 @@ module.exports = {
       colors: {
         cornflowerBlue: "#6495ED",
       },
+      fontFamily: {
+        sans: ['Arial', 'Helvetica', 'sans-serif'],
+      },
     },
   },
+  darkMode: "class",
   plugins: [],
 };

@@ -4,9 +4,7 @@ import { useRef, useState, useEffect, useMemo } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
 import { OrbitControls, RoundedBox, Text } from "@react-three/drei";
 import * as THREE from "three";
-import SkeletonBox from "./SkeletonBox";
 
-<SkeletonBox />;
 // ----- Cards -----
 function Cards() {
   const cardCount = 5;
@@ -25,7 +23,7 @@ function Cards() {
       size * 0.25,
       size / 2,
       size / 2,
-      size * 0.5,
+      size * 0.5
     );
     g.addColorStop(0, "rgba(255,255,255,1)");
     g.addColorStop(1, "rgba(255,255,255,0)");
@@ -51,72 +49,28 @@ function Cards() {
             </mesh>
 
             {i === 0 && logo && (
-              <group
-                rotation={[-Math.PI / 2, 0, 0]}
-                position={[0, cardHeight / 2 + 0.25, 0]}
-              >
-                <Text
-                  position={[-0.6, 0.25, -0.18]}
-                  fontSize={0.08}
-                  color="#111"
-                  anchorX="left"
-                  anchorY="middle"
-                >
+              <group rotation={[-Math.PI / 2, 0, 0]} position={[0, cardHeight / 2 + 0.25, 0]}>
+                <Text position={[-0.6, 0.25, -0.18]} fontSize={0.08} color="#111" anchorX="left" anchorY="middle">
                   Ryan Cook
                 </Text>
-                <Text
-                  position={[-0.6, 0.16, -0.18]}
-                  fontSize={0.045}
-                  color="blue"
-                  anchorX="left"
-                  anchorY="middle"
-                >
+                <Text position={[-0.6, 0.16, -0.18]} fontSize={0.045} color="blue" anchorX="left" anchorY="middle">
                   Software Developer
                 </Text>
-                <Text
-                  position={[-0.6, 0.08, -0.18]}
-                  fontSize={0.045}
-                  color="#555"
-                  anchorX="left"
-                  anchorY="middle"
-                >
+                <Text position={[-0.6, 0.08, -0.18]} fontSize={0.045} color="#555" anchorX="left" anchorY="middle">
                   TheSikworks@gmail.com
                 </Text>
-                <Text
-                  position={[-0.6, 0.001, -0.18]}
-                  fontSize={0.045}
-                  color="#555"
-                  anchorX="left"
-                  anchorY="middle"
-                >
+                <Text position={[-0.6, 0.001, -0.18]} fontSize={0.045} color="#555" anchorX="left" anchorY="middle">
                   https://github.com/Sikboy79
                 </Text>
-                <Text
-                  position={[-0.6, -0.09, -0.18]}
-                  fontSize={0.045}
-                  color="#555"
-                  anchorX="left"
-                  anchorY="middle"
-                >
+                <Text position={[-0.6, -0.09, -0.18]} fontSize={0.045} color="#555" anchorX="left" anchorY="middle">
                   -Portfolio here-
                 </Text>
-                <Text
-                  position={[-0.4, -0.3, -0.18]}
-                  fontSize={0.045}
-                  color="#555"
-                  anchorX="left"
-                  anchorY="middle"
-                >
+                <Text position={[-0.4, -0.3, -0.18]} fontSize={0.045} color="#555" anchorX="left" anchorY="middle">
                   "Inhale problems, exhale solutions!"
                 </Text>
                 <mesh position={[0.36, 0.06, -0.18]}>
                   <planeGeometry args={[0.6, 0.6]} />
-                  <meshBasicMaterial
-                    map={logo}
-                    alphaMap={fadeTexture}
-                    transparent
-                    depthWrite={false}
-                  />
+                  <meshBasicMaterial map={logo} alphaMap={fadeTexture} transparent depthWrite={false} />
                 </mesh>
               </group>
             )}
@@ -128,22 +82,10 @@ function Cards() {
 }
 
 // ----- Lid -----
-function Lid({ open, width, depth, radius, textures, loading }) {
+function Lid({ open, width, depth, radius, textures }) {
   if (!textures) return null;
   const ref = useRef();
   const SPEED = 0.02;
-
-  if (loading)
-    return <SkeletonBox width={width} height={0.1} depth={depth} radius={radius} position={[0, 0.25, -depth / 2]} />;
-
-  const [
-    armMap,
-    normalMapGL,
-    colorMap,
-    displacementMap,
-    normalMapDX,
-    roughnessMap,
-  ] = textures;
 
   useFrame(() => {
     if (!ref.current) return;
@@ -151,14 +93,11 @@ function Lid({ open, width, depth, radius, textures, loading }) {
     ref.current.rotation.x += (targetRotation - ref.current.rotation.x) * SPEED;
   });
 
+  const [, , colorMap, displacementMap, normalMapDX, roughnessMap] = textures;
+
   return (
     <group ref={ref} position={[0, 0.25, -depth / 2]}>
-      <RoundedBox
-        args={[width, 0.1, depth]}
-        radius={radius}
-        smoothness={4}
-        position={[0, 0, depth / 2]}
-      >
+      <RoundedBox args={[width, 0.1, depth]} radius={radius} smoothness={4} position={[0, 0, depth / 2]}>
         <meshStandardMaterial
           map={colorMap}
           normalMap={normalMapDX}
@@ -173,66 +112,21 @@ function Lid({ open, width, depth, radius, textures, loading }) {
 }
 
 // ----- Hollow Box -----
-function HollowBox({
-  width,
-  height,
-  depth,
-  wallThickness,
-  radius,
-  textures,
-  loading,
-}) {
-  if (loading)
-    return <SkeletonBox width={width} height={0.1} depth={depth} radius={radius} position={[0, 0.25, -depth / 2]} />;
-
+function HollowBox({ width, height, depth, wallThickness, radius, textures }) {
   if (!textures) return null;
-  const [
-    armMap,
-    normalMapGL,
-    colorMap,
-    displacementMap,
-    normalMapDX,
-    roughnessMap,
-  ] = textures;
-
+  const [, , colorMap, displacementMap, normalMapDX, roughnessMap] = textures;
   const wallRadius = 0.02;
-
-  const boxes = [
-    {
-      args: [width, height, wallThickness],
-      pos: [0, height / 2, -depth / 2 + wallThickness / 2],
-    },
-    {
-      args: [width, height, wallThickness],
-      pos: [0, height / 2, depth / 2 - wallThickness / 2],
-    },
-    {
-      args: [wallThickness, height, depth],
-      pos: [-width / 2 + wallThickness / 2, height / 2, 0],
-      r: wallRadius,
-    },
-    {
-      args: [wallThickness, height, depth],
-      pos: [width / 2 - wallThickness / 2, height / 2, 0],
-      r: wallRadius,
-    },
-    {
-      args: [width, wallThickness, depth],
-      pos: [0, wallThickness / 2, 0],
-      r: radius / 2,
-    },
-  ];
 
   return (
     <group>
-      {boxes.map((b, i) => (
-        <RoundedBox
-          key={i}
-          args={b.args}
-          radius={b.r ?? radius}
-          smoothness={4}
-          position={b.pos}
-        >
+      {[
+        { args: [width, height, wallThickness], pos: [0, height / 2, -depth / 2 + wallThickness / 2] },
+        { args: [width, height, wallThickness], pos: [0, height / 2, depth / 2 - wallThickness / 2] },
+        { args: [wallThickness, height, depth], pos: [-width / 2 + wallThickness / 2, height / 2, 0], r: wallRadius },
+        { args: [wallThickness, height, depth], pos: [width / 2 - wallThickness / 2, height / 2, 0], r: wallRadius },
+        { args: [width, wallThickness, depth], pos: [0, wallThickness / 2, 0], r: radius / 2 },
+      ].map((b, i) => (
+        <RoundedBox key={i} args={b.args} radius={b.r ?? radius} smoothness={4} position={b.pos}>
           <meshStandardMaterial
             map={colorMap}
             normalMap={normalMapDX}
@@ -247,12 +141,63 @@ function HollowBox({
   );
 }
 
+// ----- BoxGroup with Zoom and Fade -----
+function BoxGroup({ open, width, height, depth, wallThickness, cornerRadius, textures }) {
+  const groupRef = useRef();
+  const [hovered, setHovered] = useState(false);
+  const [scale, setScale] = useState(0); // start at 0 to fade in
+
+  // Fade in on load
+  useEffect(() => {
+    let start = null;
+    const duration = 1000; // 1 second fade/scale
+    function animate(timestamp) {
+      if (!start) start = timestamp;
+      const progress = Math.min((timestamp - start) / duration, 1);
+      setScale(progress);
+      if (progress < 1) requestAnimationFrame(animate);
+    }
+    requestAnimationFrame(animate);
+  }, []);
+
+  useFrame(() => {
+    if (!groupRef.current) return;
+    // Smooth hover scaling with easing
+    const target = hovered ? 1.5 : 1;
+    const eased = 0.1;
+    groupRef.current.scale.x += (target - groupRef.current.scale.x) * eased;
+    groupRef.current.scale.y += (target - groupRef.current.scale.y) * eased;
+    groupRef.current.scale.z += (target - groupRef.current.scale.z) * eased;
+
+    // Apply fade-in scale
+    groupRef.current.scale.multiplyScalar(scale);
+  });
+
+  return (
+    <group
+      ref={groupRef}
+      position={[0, 0, 0]}
+      onPointerOver={() => setHovered(true)}
+      onPointerOut={() => setHovered(false)}
+    >
+      <HollowBox
+        width={width}
+        height={height}
+        depth={depth}
+        wallThickness={wallThickness}
+        radius={cornerRadius}
+        textures={textures}
+      />
+      <Lid open={open} width={width} depth={depth} radius={cornerRadius} textures={textures} />
+    </group>
+  );
+}
+
 // ----- Main Component -----
 export default function BusinessCardHolder() {
   const [open, setOpen] = useState(false);
-  const [showPopup, setShowPopup] = useState(true);
+  const [showPopup, setShowPopup] = useState(false);
   const [textures, setTextures] = useState(null);
-  const loading = !textures;
 
   const width = 1.8;
   const depth = 1;
@@ -260,20 +205,22 @@ export default function BusinessCardHolder() {
   const wallThickness = 0.05;
   const cornerRadius = 0.05;
 
-  // Scroll open effect
+  // Automatically open box after 2 seconds
   useEffect(() => {
-    const handleScroll = () => setOpen(window.scrollY / 300 > 0.05);
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
-
-  // Popup hide timer
-  useEffect(() => {
-    const timer = setTimeout(() => setShowPopup(false), 5000);
+    const timer = setTimeout(() => setOpen(true), 2000);
     return () => clearTimeout(timer);
   }, []);
 
-  // Load wood textures with explicit loading
+  // Show drag popup after load
+  useEffect(() => {
+    if (textures) {
+      setShowPopup(true);
+      const timer = setTimeout(() => setShowPopup(false), 5000);
+      return () => clearTimeout(timer);
+    }
+  }, [textures]);
+
+  // Load textures
   useEffect(() => {
     const loader = new THREE.TextureLoader();
     const urls = [
@@ -293,12 +240,7 @@ export default function BusinessCardHolder() {
         loadedTextures[i] = tex;
         loadedCount++;
         if (loadedCount === urls.length) {
-          [
-            loadedTextures[2],
-            loadedTextures[4],
-            loadedTextures[5],
-            loadedTextures[3],
-          ].forEach((t) => {
+          [loadedTextures[2], loadedTextures[4], loadedTextures[5], loadedTextures[3]].forEach((t) => {
             t.wrapS = t.wrapT = THREE.RepeatWrapping;
             t.repeat.set(2, 1);
           });
@@ -309,21 +251,14 @@ export default function BusinessCardHolder() {
   }, []);
 
   return (
-    <div
-      style={{
-        width: "90vw",
-        height: "90vh",
-        margin: "0 auto",
-        position: "relative",
-      }}
-    >
+    <div style={{ width: "90vw", height: "90vh", margin: "0 auto", position: "relative" }}>
       {showPopup && (
         <div
           style={{
             position: "absolute",
             top: "50%",
             left: "50%",
-            transform: "translateX(-50%)",
+            transform: "translate(-50%, -50%)",
             background: "rgba(0,0,0,0.7)",
             color: "#fff",
             padding: "8px 16px",
@@ -336,48 +271,26 @@ export default function BusinessCardHolder() {
         </div>
       )}
 
-      <Canvas shadows camera={{ position: [3, 2, 3], fov: 30 }}>
-        <ambientLight intensity={0.5} />
-        <directionalLight position={[5, 10, 7.5]} intensity={0.8} castShadow />
+      {textures && (
+        <Canvas shadows camera={{ position: [3, 2, 3], fov: 70 }}>
+          <ambientLight intensity={0.5} />
+          <directionalLight position={[5, 10, 7.5]} intensity={0.8} castShadow />
 
-        {textures ? (
-          <>
-            <HollowBox
-              width={width}
-              height={height}
-              depth={depth}
-              wallThickness={wallThickness}
-              radius={cornerRadius}
-              textures={textures}
-              loading={loading}
-            />
-            <Lid
-              open={open}
-              width={width}
-              depth={depth}
-              radius={cornerRadius}
-              textures={textures}
-              loading={loading}
-            />
-          </>
-        ) : (
-          <SkeletonBox
+          <BoxGroup
+            open={open}
             width={width}
-            height={0.1}
+            height={height}
             depth={depth}
-            radius={cornerRadius}
-            position={[0, 0.25, -depth / 2]}
+            wallThickness={wallThickness}
+            cornerRadius={cornerRadius}
+            textures={textures}
           />
-        )}
-        <Cards />
-        <OrbitControls
-          enableZoom={false}
-          enablePan={false}
-          enableRotate
-          maxPolarAngle={Math.PI / 2}
-          minPolarAngle={0}
-        />
-      </Canvas>
+
+          <Cards />
+
+          <OrbitControls enableZoom={false} enablePan={false} enableRotate maxPolarAngle={Math.PI / 2} minPolarAngle={0} />
+        </Canvas>
+      )}
     </div>
   );
 }

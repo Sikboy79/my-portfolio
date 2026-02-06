@@ -1,4 +1,5 @@
 "use client";
+
 import React, { useState } from "react";
 import NavButton from "./NavButton";
 
@@ -13,30 +14,29 @@ const Navbar: React.FC<NavbarProps> = ({ toggleModal, toggleContrast }) => {
   const handleMenuToggle = () => setMenuOpen(!menuOpen);
 
   return (
-    <nav className=" top-0 left-0 w-full z-50 bg-white dark:bg-gray-900 backdrop-blur-md shadow-md">
-      <div className="max-w-7xl mx-auto flex justify-between items-center py-3 px-4 sm:px-6 md:px-12">
-
+    <nav className="w-full fixed top-5 z-50 bg-transparent">
+      <div className="max-w-7xl flex items-center py-3 px-4 sm:px-6 md:px-12">
         {/* Logo */}
-        <figure className="flex items-center">
+        <figure className=" ">
           <img
             src="/assets/MRCB&W.png"
             alt="Logo"
-            className="h-10 w-10 md:h-14 md:w-14 object-cover rounded-lg shadow-sm"
+            className=" md:h-14 md:w-14 object-cover rounded-full shadow-sm"
           />
         </figure>
 
         {/* Desktop Menu */}
-        <div className="flex ml-auto md:flex gap-4 lg:gap-6 items-center">
-          <NavButton onClick={toggleModal} variant="primary">About</NavButton>
-          <NavButton onClick={() => console.log("Projects clicked")} variant="primary">Projects</NavButton>
-          <NavButton onClick={toggleModal} variant="primary">Contacts</NavButton>
-          <NavButton
-            onClick={toggleContrast}
-            variant="icon"
-            className="w-12! h-12! text-2xl rounded-full"
-          >
-            <i className="fa-solid fa-circle-half-stroke"></i>
-          </NavButton>
+        <div className="flex w-full justify-end">
+          <div className="flex gap-2 shrink-0">
+            <NavButton onClick={toggleModal}>About</NavButton>
+            <NavButton onClick={() => console.log("Projects clicked")}>
+              Projects
+            </NavButton>
+            <NavButton onClick={toggleModal}>Contacts</NavButton>
+            <NavButton onClick={toggleContrast} variant="icon">
+              <i className="fa-solid fa-circle-half-stroke text-2xl"></i>
+            </NavButton>
+          </div>
         </div>
 
         {/* Mobile Hamburger */}
@@ -53,16 +53,33 @@ const Navbar: React.FC<NavbarProps> = ({ toggleModal, toggleContrast }) => {
       {/* Mobile Menu */}
       {menuOpen && (
         <div className="md:hidden bg-white dark:bg-gray-900 w-full px-4 pb-4 flex flex-col gap-3 z-40">
-          <NavButton onClick={toggleModal} variant="primary">About</NavButton>
-          <NavButton onClick={() => console.log("Projects clicked")} variant="primary">Projects</NavButton>
-          <NavButton onClick={toggleModal} variant="primary">Contacts</NavButton>
-          <NavButton
-            onClick={toggleContrast}
-            variant="icon"
-            className="w-12! h-12! text-2xl rounded-full"
-          >
-            <i className="fa-solid fa-circle-half-stroke"></i>
-          </NavButton>
+          <div className="button pr-12">
+            <NavButton onClick={toggleModal} variant="primary">
+              About
+            </NavButton>
+          </div>
+          <div className="button">
+            <NavButton
+              onClick={() => console.log("Projects clicked")}
+              variant="primary"
+            >
+              Projects
+            </NavButton>
+          </div>
+          <div className="button">
+            <NavButton onClick={toggleModal} variant="primary">
+              Contacts
+            </NavButton>
+          </div>
+          <div className="button">
+            <NavButton
+              onClick={toggleContrast}
+              variant="icon"
+              className="w-12! h-12! text-2xl rounded-full"
+            >
+              <i className="fa-solid fa-circle-half-stroke"></i>
+            </NavButton>
+          </div>
         </div>
       )}
     </nav>
