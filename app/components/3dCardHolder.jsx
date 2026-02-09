@@ -234,11 +234,15 @@ function CameraSnapback({ controlsRef }) {
   useFrame(() => {
     const controls = controlsRef.current;
     if (!controls || !snapBack.current) return;
-    controls.object.position.lerp(originalPos.current, 0.08);
-    controls.target.lerp(originalTarget.current, 0.08);
+
+    controls.object.position.lerp(originalPos.current, 0.05);
+    controls.target.lerp(originalTarget.current, 0.05);
+
     controls.update();
-    if (controls.object.position.distanceTo(originalPos.current) < 0.01)
+
+    if (controls.object.position.distanceTo(originalPos.current) < 0.01) {
       snapBack.current = false;
+    }
   });
 
   return null;
@@ -256,27 +260,30 @@ function BoxGroup({
   onVisible,
 }) {
   const groupRef = useRef();
+  const fadeRef = useRef(0);
   const [hovered, setHovered] = useState(false);
-  const [opacity, setOpacity] = useState(0); // fade in
+
   const baseRotation = useRef(new THREE.Euler(0.1, 0.5, -0.08));
 
   useFrame(() => {
     if (!groupRef.current) return;
 
-    // Fade in
-    if (opacity < 1) {
-      const next = opacity + 0.02;
-      setOpacity(next > 1 ? 1 : next);
-      if (next >= 1 && onVisible) onVisible(); // notify parent that box is fully visible
+    /* ---------- Fade in  ---------- */
+    if (fadeRef.current < 1) {
+      fadeRef.current += 0.015;
+      if (fadeRef.current >= 1 && onVisible) onVisible();
     }
 
-    // Hover scale
-    const targetScale = hovered ? 1.75 : 1;
-    groupRef.current.scale.x += (targetScale - groupRef.current.scale.x) * 0.08;
-    groupRef.current.scale.y = groupRef.current.scale.x;
-    groupRef.current.scale.z = groupRef.current.scale.x;
+    /* ---------- Hover zoom  ---------- */
+    const targetScale = hovered ? 1.5 : 1;
+    const s = groupRef.current.scale.x;
+    const nextScale = s + (targetScale - s) * 0.05;
 
-    // Hover rotation
+    groupRef.current.scale.setScalar(nextScale * fadeRef.current);
+
+    /* ---------- Rotation ---------- */
+    const rot = groupRef.current.rotation;
+
     const targetX = hovered
       ? baseRotation.current.x - 0.01
       : baseRotation.current.x;
@@ -287,12 +294,9 @@ function BoxGroup({
       ? baseRotation.current.z - 0.01
       : baseRotation.current.z;
 
-    groupRef.current.rotation.x +=
-      (targetX - groupRef.current.rotation.x) * 0.08;
-    groupRef.current.rotation.y +=
-      (targetY - groupRef.current.rotation.y) * 0.08;
-    groupRef.current.rotation.z +=
-      (targetZ - groupRef.current.rotation.z) * 0.08;
+    rot.x += (targetX - rot.x) * 0.05;
+    rot.y += (targetY - rot.y) * 0.05;
+    rot.z += (targetZ - rot.z) * 0.05;
   });
 
   return (
@@ -301,11 +305,40 @@ function BoxGroup({
       rotation={baseRotation.current}
       onPointerOver={() => setHovered(true)}
       onPointerOut={() => setHovered(false)}
-      scale={[opacity, opacity, opacity]} // smooth fade-in via scale
     >
-      <mesh position={[0.35, 0.01, 0.1]} rotation={[-Math.PI / 2, 0, 0]}>
-        <planeGeometry args={[2.5, 0.8]} />
-        <shadowMaterial transparent opacity={0.25} />
+      {/* ---------- Soft shadow ---------- */}
+
+      {/* center  */}
+      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0.3, 0.005, 0.15]}>
+        <planeGeometry args={[2.1, 0.75]} />
+        <meshBasicMaterial
+          transparent
+          depthWrite={false}
+          opacity={0.18}
+          color="black"
+        />
+      </mesh>
+
+      {/* mid blur */}
+      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0.3, 0.004, 0.15]}>
+        <planeGeometry args={[2.4, 0.9]} />
+        <meshBasicMaterial
+          transparent
+          depthWrite={false}
+          opacity={0.1}
+          color="black"
+        />
+      </mesh>
+
+      {/* outer blur */}
+      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0.3, 0.003, 0.15]}>
+        <planeGeometry args={[2.8, 1.1]} />
+        <meshBasicMaterial
+          transparent
+          depthWrite={false}
+          opacity={0.05}
+          color="black"
+        />
       </mesh>
 
       <HollowBox
@@ -316,6 +349,7 @@ function BoxGroup({
         radius={cornerRadius}
         textures={textures}
       />
+
       <Lid
         open={open}
         width={width}
@@ -323,6 +357,7 @@ function BoxGroup({
         radius={cornerRadius}
         textures={textures}
       />
+
       <Cards />
     </group>
   );
@@ -342,10 +377,20 @@ export default function BusinessCardHolder() {
   const height = 0.25;
   const wallThickness = 0.05;
   const cornerRadius = 0.05;
+  const popupTimer = useRef(null);
+
+  const triggerPopup = () => {
+    setShowPopup(true);
+
+    clearTimeout(popupTimer.current);
+    popupTimer.current = setTimeout(() => {
+      setShowPopup(false);
+    }, 2000); // 2 seconds
+  };
 
   // Auto-open box after 2s
   useEffect(() => {
-    const timer = setTimeout(() => setOpen(true), 2000);
+    const timer = setTimeout(() => setOpen(true), 4000);
     return () => clearTimeout(timer);
   }, []);
 
@@ -438,7 +483,7 @@ export default function BusinessCardHolder() {
             onVisible={() => {
               setBoxVisible(true);
               setShowPopup(true);
-              setTimeout(() => setShowPopup(false), 1000);
+              setTimeout(() => setShowPopup(false), 2000);
             }}
           />
 
