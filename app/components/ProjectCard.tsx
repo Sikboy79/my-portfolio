@@ -5,26 +5,29 @@ interface ProjectCardProps {
   title: string;
   tech: string;
   imgSrc: string;
+  link?: string; // optional link
 }
 
-const ProjectCard: React.FC<ProjectCardProps> = ({ title, tech, imgSrc }) => {
-  return (
-    <div className="relative group overflow-hidden rounded-lg shadow-lg">
-      <img
-        src={imgSrc}
-        alt={title}
-        className="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-300"
-      />
-      <div className="absolute inset-0 bg-black bg-opacity-30 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-4 text-white">
-        <h3 className="font-bold text-lg">{title}</h3>
-        <p className="text-sm">{tech}</p>
-        <div className="flex gap-2 mt-2">
-          <a href="#" className="hover:text-blue-500"><i className="fab fa-github"></i></a>
-          <a href="#" className="hover:text-blue-500"><i className="fab fa-linkedin"></i></a>
-        </div>
+const ProjectCard: React.FC<ProjectCardProps> = ({ title, tech, imgSrc, link }) => {
+  const cardContent = (
+    <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden hover:scale-105 transform transition-transform duration-300 cursor-pointer">
+      <img src={imgSrc} alt={title} className="w-full h-48 object-cover" />
+      <div className="p-4">
+        <h2 className="text-xl font-bold text-gray-900 dark:text-white">{title}</h2>
+        <p className="text-gray-700 dark:text-gray-300">{tech}</p>
       </div>
     </div>
   );
+
+  if (link) {
+    return (
+      <a href={link} target="_blank" rel="noopener noreferrer" className="block">
+        {cardContent}
+      </a>
+    );
+  }
+
+  return cardContent;
 };
 
 export default ProjectCard;

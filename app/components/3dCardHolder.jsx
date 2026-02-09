@@ -275,7 +275,7 @@ function BoxGroup({
     }
 
     /* ---------- Hover zoom  ---------- */
-    const targetScale = hovered ? 1.5 : 1;
+    const targetScale = hovered ? 1.5 : .65;
     const s = groupRef.current.scale.x;
     const nextScale = s + (targetScale - s) * 0.05;
 
@@ -372,7 +372,7 @@ export default function BusinessCardHolder() {
   const controlsRef = useRef();
   const lidRef = useRef();
 
-  const width = 1.8;
+  const width = 1.7;
   const depth = 1;
   const height = 0.25;
   const wallThickness = 0.05;
@@ -390,7 +390,7 @@ export default function BusinessCardHolder() {
 
   // Auto-open box after 2s
   useEffect(() => {
-    const timer = setTimeout(() => setOpen(true), 4000);
+    const timer = setTimeout(() => setOpen(true), 3000);
     return () => clearTimeout(timer);
   }, []);
 

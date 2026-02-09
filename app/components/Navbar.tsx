@@ -28,11 +28,11 @@ const Navbar: React.FC<NavbarProps> = ({ toggleModal, toggleContrast }) => {
         {/* Desktop Menu */}
         <div className="flex w-full justify-end">
           <div className="flex gap-2 shrink-0">
-            <NavButton onClick={toggleModal}>About</NavButton>
+            <NavButton onClick={toggleModal}>Resume</NavButton>
             <NavButton onClick={() => console.log("Projects clicked")}>
               Projects
             </NavButton>
-            <NavButton onClick={toggleModal}>Contacts</NavButton>
+            <NavButton onClick={toggleModal}>Contact</NavButton>
             <NavButton onClick={toggleContrast} variant="icon">
               <i className="fa-solid fa-circle-half-stroke text-2xl"></i>
             </NavButton>

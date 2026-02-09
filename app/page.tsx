@@ -5,6 +5,8 @@ import ThreeDCardHolder from "./components/3dCardHolder";
 import Projects from "./components/Projects";
 import Modal from "./components/Modal";
 import Footer from "./components/Footer";
+import LaptopScreen from "./components/laptopScreen";
+import CloneProjects from "./components/CloneProjects";
 
 export default function Home() {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -12,87 +14,82 @@ export default function Home() {
 
   const toggleModal = () => setIsModalOpen(!isModalOpen);
   const toggleContrast = () => {
-    setContrastToggle(!contrastToggle);
+    setContrastToggle(contrastToggle);
     document.body.classList.toggle("dark");
   };
 
   return (
     <>
-      <main
-        className="
-          max-w-full
-          w-full
-          min-h-screen
-          bg-[url('/assets/desk-bg.png')]
-          bg-cover
-          bg-center
-          bg-no-repeat
-          bg-fixed
-        "
-      >
-        <div className="max-w-[1400px] mx-auto w-full relative">
-          {/* Landing Section */}
-          <section
-            id="landing-page"
-            className="w-full flex flex-col items-center pt-32 md:pt-40"
-          >
+      <main className="max-w-[1400px] mx-auto px-4 min-h-screen">
+        {/* Landing Section with Background */}
+        <section
+          id="landing-page"
+          className="
+            w-full h-screen relative
+            bg-[url('/assets/desk-bg.png')]
+            bg-center
+            bg-no-repeat
+            bg-contain
+          "
+        >
+          <div className="relative h-full flex flex-col items-center">
             <Navbar toggleModal={toggleModal} toggleContrast={toggleContrast} />
-            <div className="w-full max-w-5xl mx-auto h-[400px] md:h-[500px] z-20 fixed top-72 left-50 flex justify-center items-center">
+
+            {/* 3D Card Holder */}
+            <div className="absolute top-3/4 left-[47%] transform -translate-x-1/2 -translate-y-1/2 w-full max-w-4xl h-[400px] md:h-[500px] z-20 flex justify-center items-center">
               <ThreeDCardHolder />
             </div>
 
-            {/* Header positioned over laptop screen */}
-            <div className="fixed top-[35%] md:top-[25%] left-[70%] transform -translate-x-1/2 z-0 text-center max-w-3xl">
-              <h1 className="text-4xl md:text-6xl font-bold leading-tight text-black dark:text-white">
-                Hello!
-              </h1>
-              <h1 className="text-4xl md:text-6xl font-bold leading-tight text-blue-500 mt-2">
-                I'm Ryan.
-              </h1>
-              <p className="mt-4 text-base md:text-lg text-gray-700 dark:text-gray-300 max-w-1/3 mx-auto wrap-break-word">
-                I am a{" "}
-                <b className="text-blue-500">
-                  Frontend Simplified software student
-                </b>
-                . Looking forward to an exciting career in software development.
-                <br />
-                More{" "}
-                <b
-                  className="text-blue-500 cursor-pointer"
-                  onClick={toggleModal}
-                >
-                  About Me
-                </b>
-                .
-              </p>
-            </div>
-
-            {/* Scroll Indicator */}
-            <div className="absolute bottom-12 left-1/2 transform -translate-x-1/2 z-100 flex justify-center w-full">
-              <a href="#projects">
-                <div className="w-6 h-6 border-b-2 border-r-2 border-gray-700 dark:border-white rotate-45 animate-bounce"></div>
-              </a>
-            </div>
-          </section>
-
-         
-        <section
-          // id="projects"
-          // className="w-full py-16 md:py-24 bg-transparent transition-colors duration-300"
-        >
-          {/* <div className="">
-            <Projects />
-          </div> */}
+            {/* Laptop Screen Overlay */}
+            <LaptopScreen
+              textLines={[
+                "Hello!",
+                "I'm Ryan.",
+                "I am a Frontend software developer, excited about turning ideas into polished, interactive software.",
+              ]}
+              className="
+                absolute 
+                md:top-[31%] 
+                left-[50%] md:left-[23.3%] 
+                w-[244px] lg:w-[247px] 
+                h-[180px] lg:h-[180px] 
+                transform rotate-[7deg]
+                origin-top-left
+              "
+              style={{
+                transform: `rotate(7deg) scale(${Math.min(1, window.innerWidth / 1920)})`,
+              }}
+            />
+          </div>
         </section>
 
-          {/* Modal */}
-          <Modal isOpen={isModalOpen} toggleModal={toggleModal} />
+        {/* Projects Section */}
+        <section
+          id="projects"
+          className="w-full py-16 md:py-5 bg-white dark:bg-gray-900 transition-colors duration-300"
+        >
+          <div className="w-full max-w-[1400px] mx-auto px-4">
+            <Projects />
+          </div>
+        </section>
+        <section
+          id="Clone projects"
+          className="w-full py-16 md:py-5 bg-white dark:bg-gray-900 transition-colors duration-300"
+        >
+          <div className="w-full max-w-[1400px] mx-auto px-4">
+            <CloneProjects/>
+          </div>
+        </section>
 
-          {/* Footer */}
-          {/* <footer className="w-full">
-          <Footer />
-        </footer> */}
-        </div>
+        {/* Footer */}
+        <footer className="w-full bg-gray-100 dark:bg-gray-900">
+          <div className="w-full max-w-[1400px] mx-auto px-4">
+            <Footer />
+          </div>
+        </footer>
+
+        {/* Modal */}
+        <Modal isOpen={isModalOpen} toggleModal={toggleModal} />
       </main>
     </>
   );
