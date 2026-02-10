@@ -3,7 +3,7 @@ import { useState } from "react";
 import Navbar from "./components/Navbar";
 import ThreeDCardHolder from "./components/3dCardHolder";
 import Projects from "./components/Projects";
-import Modal from "./components/Modal";
+import Modal from "./components/UI/Modal";
 import Footer from "./components/Footer";
 import LaptopScreen from "./components/laptopScreen";
 import CloneProjects from "./components/CloneProjects";
@@ -21,47 +21,29 @@ export default function Home() {
   return (
     <>
       <main className="max-w-[1400px] mx-auto px-4 min-h-screen">
-        {/* Landing Section with Background */}
-        <section
-          id="landing-page"
-          className="
-            w-full h-screen relative
-            bg-[url('/assets/desk-bg.png')]
-            bg-center
-            bg-no-repeat
-            bg-contain
-          "
-        >
-          <div className="relative h-full flex flex-col items-center">
-            <Navbar toggleModal={toggleModal} toggleContrast={toggleContrast} />
+        <div className="relative h-full flex flex-col items-center">
+          <Navbar toggleModal={toggleModal} toggleContrast={toggleContrast} />
 
-            {/* 3D Card Holder */}
-            <div className="absolute top-3/4 left-[47%] transform -translate-x-1/2 -translate-y-1/2 w-full max-w-4xl h-[400px] md:h-[500px] z-20 flex justify-center items-center">
-              <ThreeDCardHolder />
-            </div>
-
-            {/* Laptop Screen Overlay */}
-            <LaptopScreen
-              textLines={[
-                "Hello!",
-                "I'm Ryan.",
-                "I am a Frontend software developer, excited about turning ideas into polished, interactive software.",
-              ]}
-              className="
-                absolute 
-                md:top-[31%] 
-                left-[50%] md:left-[23.3%] 
-                w-[244px] lg:w-[247px] 
-                h-[180px] lg:h-[180px] 
-                transform rotate-[7deg]
-                origin-top-left
-              "
-              style={{
-                transform: `rotate(7deg) scale(${Math.min(1, window.innerWidth / 1920)})`,
-              }}
-            />
+          
+          <div className="absolute top-3/4 left-[47%] transform -translate-x-1/2 -translate-y-1/2 w-full z-20 flex justify-center items-center scale-90 sm:scale-75 md:scale-75 lg:scale-100">
+            <ThreeDCardHolder />
           </div>
-        </section>
+
+          {/* Laptop Screen Overlay */}
+          <div className="relative w-full max-w-[1200px] mx-auto">
+            <img src="/assets/desk-bg.png" className="w-full h-auto" />
+            <div className="absolute top-[31.2%] left-[15%] w-[21%] h-[25.2%]"
+              style=
+              {{
+                perspective: "90px",
+                transformOrigin: "left center",
+                transform: "rotateY(1deg) scaleX(1.1)", 
+              }}
+              >
+              <LaptopScreen className="w-full h-full" />
+            </div>
+          </div>
+        </div>
 
         {/* Projects Section */}
         <section
@@ -77,7 +59,7 @@ export default function Home() {
           className="w-full py-16 md:py-5 bg-white dark:bg-gray-900 transition-colors duration-300"
         >
           <div className="w-full max-w-[1400px] mx-auto px-4">
-            <CloneProjects/>
+            <CloneProjects />
           </div>
         </section>
 

@@ -1,23 +1,23 @@
 "use client";
 import React from "react";
-import ProjectCard from "./ProjectCard";
+import ProjectCard from "./UI/ProjectCard";
 
 const projectList = [
   {
     title: "Skinstric Internship",
-    tech: "HTML, CSS, JavaScript",
+    tech: "NextJS, Tailwind, Typescript, API",
     imgSrc: "/assets/Skinstric.png",
     link: "https://skinstric-internship-eta.vercel.app/",
   },
   {
     title: "Summarist library",
-    tech: "React, Tailwind",
+    tech: "NextJS, Tailwind, Typescript, API, Stripe",
     imgSrc: "/assets/Summarist.png",
     link: "https://ryan-advanced-virtual-internship.vercel.app/",
   },
   {
     title: "NFT digital asset library",
-    tech: "Next.js, Tailwind",
+    tech: "Next.js, Tailwind, Typesctipt, API",
     imgSrc: "/assets/ultraverse.png",
     link: "https://ryan-internship-theta.vercel.app/",
   },

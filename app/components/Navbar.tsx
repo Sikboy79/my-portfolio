@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import NavButton from "./NavButton";
+import NavButton from "./UI/NavButton";
 
 interface NavbarProps {
   toggleModal: () => void;

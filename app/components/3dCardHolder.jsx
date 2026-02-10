@@ -34,7 +34,7 @@ function Cards() {
 
   const [logo, setLogo] = useState(null);
   useEffect(() => {
-    new THREE.TextureLoader().load("/MRCB&W.png", setLogo);
+    new THREE.TextureLoader().load("./assets/MRCB&W.png", setLogo);
   }, []);
 
   return (
@@ -275,7 +275,7 @@ function BoxGroup({
     }
 
     /* ---------- Hover zoom  ---------- */
-    const targetScale = hovered ? 1.5 : .65;
+    const targetScale = hovered ? 1.5 : .95;
     const s = groupRef.current.scale.x;
     const nextScale = s + (targetScale - s) * 0.05;
 
