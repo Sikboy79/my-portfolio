@@ -91,7 +91,7 @@ function Cards() {
                 </Text>
                 <Text
                   position={[-0.6, -0.09, -0.18]}
-                  fontSize={0.045}
+                  fontSize={0.025}
                   color="#555"
                   anchorX="left"
                   anchorY="middle"
