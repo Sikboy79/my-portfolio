@@ -87,8 +87,8 @@ const LaptopScreen: React.FC<LaptopScreenProps> = ({
       {/* ---------- WINDOW FRAME ---------- */}
       <div className="bg-neutral-900 border border-neutral-700">
         {/* ---------- TITLE BAR ---------- */}
-        <div className="flex items-center justify-between px-3 bg-neutral-800 text-xs text-neutral-300">
-          <span>portfolio-terminal</span>
+        <div className="flex items-center justify-between px-3 bg-neutral-900 text-[3px] sm:text-[5px] lg:text-[8px] text-neutral-300">
+          <span>File  Edit Selection View Go Run Terminal Help</span>
 
           {/* window buttons */}
           <div className="flex gap-1">
@@ -121,9 +121,10 @@ const LaptopScreen: React.FC<LaptopScreenProps> = ({
             {/* ---------- TEXT AREA ---------- */}
             <div
               className="flex-1 overflow-hidden break-words whitespace-pre-wrap leading-snug
-                lg:text-[clamp(9px,4vw,9px)] 
+                lg:text-[clamp(9px,4vw,10px)] 
                 md:text-[clamp(6px,2vw,4px)] 
                 sm:text-[clamp(4px,1.5vw,4px)] 
+                text-[clamp(4px,1.5vw,4px)]
                 "
             >
               {displayedText.map((line, idx) => (
@@ -131,18 +132,18 @@ const LaptopScreen: React.FC<LaptopScreenProps> = ({
               ))}
               {/* blinking cursor */}
               {showCursor && (
-                <span className="inline-block w-[6px] sm:w-[8px] bg-white animate-pulse ml-1">
+                <span className="inline-block w-[1px] sm:w-[1px] bg-white animate-pulse">
                   &nbsp;
                 </span>
               )}
             </div>
 
             {/* ---------- WINDOWS TASKBAR ---------- */}
-            <div className="fixed bottom-0 left-0 w-full flex items-center gap-2 p-1 bg-neutral-800 text-[clamp(2px,1.6vw,8px)] text-neutral-300">
+            <div className="fixed bottom-0 left-0 w-full flex items-center gap-2 p-1 bg-neutral-800 h-[3px] text-[2px] sm:text-[4px] lg:text-[8px] text-neutral-300">
               <div className="w-2 h-2 bg-blue-500 rounded-sm" />
               <div className="w-2 h-2 bg-neutral-600 rounded-sm" />
               <div className="w-2 h-2 rounded-sm ml-auto" />
-              <span className="ml-2 text-neutral-400">1:15 PM</span>
+              <span className="ml-2 text-neutral-400">7:15 PM</span>
             </div>
           </div>
         </div>

@@ -2,14 +2,21 @@
 
 import React, { useState } from "react";
 import NavButton from "./UI/NavButton";
+import { FaBars } from "react-icons/fa";
+import { FaCircleHalfStroke } from "react-icons/fa6";
 
 interface NavbarProps {
   toggleModal: () => void;
   toggleContrast: () => void;
+  openResume: () => void;
   className?: string;
 }
 
-const Navbar: React.FC<NavbarProps> = ({ toggleModal, toggleContrast }) => {
+const Navbar: React.FC<NavbarProps> = ({
+  toggleModal,
+  toggleContrast,
+  openResume,
+}) => {
   const [menuOpen, setMenuOpen] = useState(false);
   const handleMenuToggle = () => setMenuOpen(!menuOpen);
 
@@ -17,70 +24,98 @@ const Navbar: React.FC<NavbarProps> = ({ toggleModal, toggleContrast }) => {
     <nav className="w-full fixed top-5 z-50 bg-transparent">
       <div className="max-w-7xl flex items-center py-3 px-4 sm:px-6 md:px-12">
         {/* Logo */}
-        <figure className=" ">
-          <img
-            src="/assets/MRCB&W.png"
-            alt="Logo"
-            className=" md:h-14 md:w-14 object-cover rounded-full shadow-sm"
-          />
-        </figure>
+        <img
+          src="/assets/MRCB&W.png"
+          alt="Logo"
+          className="h-8 md:h-14 rounded-full"
+        />
 
         {/* Desktop Menu */}
-        <div className="flex w-full justify-end">
-          <div className="flex gap-2 shrink-0">
-            <NavButton onClick={toggleModal}>Resume</NavButton>
-            <NavButton onClick={() => console.log("Projects clicked")}>
-              Projects
-            </NavButton>
-            <NavButton onClick={toggleModal}>Contact</NavButton>
-            <NavButton onClick={toggleContrast} variant="icon">
-              <i className="fa-solid fa-circle-half-stroke text-2xl"></i>
-            </NavButton>
-          </div>
+        <div className="hidden md:flex ml-auto items-center gap-3">
+          <NavButton onClick={openResume}>Resume</NavButton>
+          <NavButton onClick={toggleModal}>Contact</NavButton>
+
+          <a href="#projects">
+            <NavButton>Projects</NavButton>
+          </a>
+          <NavButton
+            className="w-24 h-11 flex items-center justify-center"
+            onClick={toggleContrast}
+          >
+            <FaCircleHalfStroke size={18} />
+          </NavButton>
         </div>
 
-        {/* Mobile Hamburger */}
-        <div className="md:hidden flex items-center">
-          <button
-            onClick={handleMenuToggle}
-            className="text-gray-800 dark:text-white focus:outline-none text-2xl"
-          >
-            <i className="fa-solid fa-bars"></i>
-          </button>
-        </div>
+        {/* Hamburger */}
+        <button
+          onClick={handleMenuToggle}
+          className="md:hidden ml-auto text-2xl text-gray-800 dark:text-white"
+        >
+          <FaBars size={22} />
+        </button>
       </div>
 
       {/* Mobile Menu */}
       {menuOpen && (
-        <div className="md:hidden bg-white dark:bg-gray-900 w-full px-4 pb-4 flex flex-col gap-3 z-40">
-          <div className="button pr-12">
-            <NavButton onClick={toggleModal} variant="primary">
-              About
-            </NavButton>
-          </div>
-          <div className="button">
+        <>
+          {/* backdrop */}
+          <div
+            className="fixed inset-0 bg-black/40 z-40 md:hidden"
+            onClick={() => setMenuOpen(false)}
+          />
+
+          {/* panel */}
+          <div className="fixed top-4 right-4 z-50 md:hidden w-64 bg-white dark:bg-gray-900 rounded-2xl shadow-xl p-4 flex flex-col gap-3">
+            {/* header row */}
+            <div className="flex justify-end">
+              <button
+                onClick={() => setMenuOpen(false)}
+                className="text-xl text-gray-700 dark:text-white"
+              >
+                ✕
+              </button>
+            </div>
+
+            {/* buttons */}
             <NavButton
-              onClick={() => console.log("Projects clicked")}
-              variant="primary"
+              className="w-full h-11"
+              onClick={() => {
+                openResume();
+                setMenuOpen(false);
+              }}
             >
-              Projects
+              Resume
             </NavButton>
-          </div>
-          <div className="button">
-            <NavButton onClick={toggleModal} variant="primary">
-              Contacts
-            </NavButton>
-          </div>
-          <div className="button">
+
+            <a
+              href="#projects"
+              onClick={() => setMenuOpen(false)}
+              className="w-full"
+            >
+              <NavButton className="w-full h-11">Projects</NavButton>
+            </a>
+
             <NavButton
-              onClick={toggleContrast}
-              variant="icon"
-              className="w-12! h-12! text-2xl rounded-full"
+              className="w-full h-11"
+              onClick={() => {
+                toggleModal();
+                setMenuOpen(false);
+              }}
             >
-              <i className="fa-solid fa-circle-half-stroke"></i>
+              Contact
+            </NavButton>
+
+            <NavButton
+              className="w-full h-11 flex items-center justify-center"
+              onClick={() => {
+                toggleContrast();
+                setMenuOpen(false);
+              }}
+            >
+              <FaCircleHalfStroke size={18} />
             </NavButton>
           </div>
-        </div>
+        </>
       )}
     </nav>
   );
