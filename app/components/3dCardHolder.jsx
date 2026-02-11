@@ -96,7 +96,7 @@ function Cards() {
                   anchorX="left"
                   anchorY="middle"
                 >
-                  -Portfolio here-
+                  https://my-portfolio-five-sigma-0yof84ggh5.vercel.app/#projects
                 </Text>
                 <Text
                   position={[-0.4, -0.3, -0.18]}
