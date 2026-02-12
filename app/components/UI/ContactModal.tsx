@@ -2,7 +2,6 @@
 
 import React, { useState } from "react";
 
-
 interface ModalProps {
   isOpen: boolean;
   toggleModal: () => void;
@@ -17,13 +16,15 @@ const Modal: React.FC<ModalProps> = ({ isOpen, toggleModal }) => {
     setLoading(true);
     setStatus("idle");
 
-    const formData = new FormData(event.currentTarget);
+    const form = event.currentTarget;
 
-    const user_name = formData.get("user_name")?.toString().trim();
-    const user_email = formData.get("user_email")?.toString().trim();
-    const message = formData.get("message")?.toString().trim();
+    // Safely get values
+    const user_name = form.user_name?.value?.toString().trim();
+    const user_email = form.user_email?.value?.toString().trim();
+    const message = form.message?.value?.toString().trim();
 
     if (!user_name || !user_email || !message) {
+      console.log("Form validation failed", { user_name, user_email, message });
       setStatus("error");
       setLoading(false);
       return;
@@ -36,16 +37,22 @@ const Modal: React.FC<ModalProps> = ({ isOpen, toggleModal }) => {
         body: JSON.stringify({ user_name, user_email, message }),
       });
 
+      console.log("Fetch response", res.status);
+
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
 
       const data = await res.json();
 
-      if (data.success !== true) throw new Error("API returned false");
+      console.log("Data received from API", data);
+
+      if (!data.success) throw new Error("API returned false");
 
       setStatus("success");
-      event.currentTarget.reset();
+      form.reset();
 
-      setTimeout(toggleModal, 1200);
+      setTimeout(() => {
+        toggleModal();
+      }, 1200);
     } catch (err) {
       console.error("Contact error:", err);
       setStatus("error");
@@ -54,7 +61,7 @@ const Modal: React.FC<ModalProps> = ({ isOpen, toggleModal }) => {
     }
   };
 
-  if (!isOpen) return null;
+  // if (!isOpen) return null;
 
   return (
     <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
@@ -97,7 +104,7 @@ const Modal: React.FC<ModalProps> = ({ isOpen, toggleModal }) => {
           )}
           {status === "error" && (
             <p className="text-red-600 text-sm text-center">
-              ❌ Something went wrong. Try again.
+              ❌ Something went wrong again. Try again.
             </p>
           )}
 
