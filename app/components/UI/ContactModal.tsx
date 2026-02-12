@@ -16,8 +16,6 @@ const Modal: React.FC<ModalProps> = ({ isOpen, toggleModal }) => {
 
     const formData = new FormData(event.currentTarget);
 
-    // Type-safe extraction from FormData
-
     const user_name = formData.get("user_name");
     const user_email = formData.get("user_email");
     const message = formData.get("message");
@@ -32,10 +30,6 @@ const Modal: React.FC<ModalProps> = ({ isOpen, toggleModal }) => {
       return;
     }
 
-    // const user_name = formData.get("user_name") as string;
-    // const user_email = formData.get("user_email") as string;
-    // const message = formData.get("message") as string;
-
     try {
       const res = await fetch("/api/contact", {
         method: "POST",
@@ -43,7 +37,9 @@ const Modal: React.FC<ModalProps> = ({ isOpen, toggleModal }) => {
         body: JSON.stringify({ user_name, user_email, message }),
       });
 
-      if (!res.ok) throw new Error();
+      const data = await res.json();
+
+      if (!data.success) throw new Error();
 
       setStatus("success");
       event.currentTarget.reset();

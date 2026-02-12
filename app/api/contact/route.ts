@@ -1,5 +1,4 @@
 import { Resend } from "resend";
-import { NextResponse } from "next/server";
 
 if (!process.env.RESEND_API_KEY || !process.env.CONTACT_EMAIL) {
   throw new Error("Missing environment variables!");
@@ -9,26 +8,25 @@ const resend = new Resend(process.env.RESEND_API_KEY);
 
 export async function POST(req: Request) {
   try {
+    const resend = new Resend(process.env.RESEND_API_KEY);
+
     const { user_name, user_email, message } = await req.json();
-    const toEmail =
-  process.env.NODE_ENV === "production"
-    ? process.env.CONTACT_EMAIL!
-    : "delivered@resend.dev";
 
     await resend.emails.send({
       from: "Portfolio <onboarding@resend.dev>",
-      to: toEmail,
+      to: "custombasewelds@yahoo.com", 
       subject: `Message from ${user_name}`,
       replyTo: user_email,
       text: message,
     });
 
-    return NextResponse.json({ ok: true });
+    return Response.json({ success: true }, { status: 200 });
   } catch (err) {
-    console.error("EMAIL ERROR ❌:", err);
-    return NextResponse.json(
-      { ok: false, error: (err as Error).message },
-      { status: 500 },
+    console.error(err);
+
+    return Response.json(
+      { success: false },
+      { status: 500 }
     );
   }
 }
