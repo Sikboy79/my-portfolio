@@ -1,74 +1,22 @@
+import { Resend } from "resend";
 
-import nodemailer from "nodemailer";
-
+const resend = new Resend(process.env.RESEND_API_KEY);
 
 export async function POST(req: Request) {
   try {
-    console.log("API HIT");
+    const { user_name, user_email, message } = await req.json();
 
-    const body = await req.json();
-    console.log("BODY:", body);
-
-    console.log("ENV CHECK:", {
-      user: process.env.SMTP_USER,
-      passExists: !!process.env.SMTP_PASS,
+    await resend.emails.send({
+      from: "Portfolio <onboarding@resend.dev>", // default allowed sender
+      to: process.env.CONTACT_EMAIL!,
+      subject: `New message from ${user_name}`,
+      replyTo: user_email,
+      text: message,
     });
-
-    const transporter = nodemailer.createTransport({
-      host: process.env.SMTP_HOST,
-      port: Number(process.env.SMTP_PORT),
-      secure: process.env.SMTP_SECURE === "true",
-      auth: {
-        user: process.env.SMTP_USER,
-        pass: process.env.SMTP_PASS,
-      },
-    });
-
-    await transporter.sendMail({
-      from: process.env.SMTP_USER,
-      to: process.env.CONTACT_EMAIL,
-      subject: "Portfolio message",
-      text: body.message,
-    });
-
-    console.log("EMAIL SENT ✅");
 
     return Response.json({ ok: true });
   } catch (err) {
-    console.error("EMAIL ERROR ❌:", err);
+    console.error(err);
     return Response.json({ ok: false }, { status: 500 });
   }
 }
-
-// export async function POST(req: Request) {
-//   try {
-//     console.log("Contact API hit");
-
-//     const body = await req.json();
-//     console.log(body);
-
-//     const transporter = nodemailer.createTransport({
-//       host: process.env.SMTP_HOST,
-//       port: Number(process.env.SMTP_PORT),
-//       secure: process.env.SMTP_SECURE === "true",
-//       auth: {
-//         user: process.env.SMTP_USER,
-//         pass: process.env.SMTP_PASS,
-//       },
-//     });
-
-//     await transporter.sendMail({
-//       from: `"Portfolio" <${process.env.SMTP_USER}>`,
-//       to: process.env.CONTACT_EMAIL,
-//       subject: "New message",
-//       text: body.message,
-//     });
-
-//     console.log("Email sent");
-
-//     return Response.json({ ok: true });
-//   } catch (err) {
-//     console.error("EMAIL ERROR:", err);
-//     return Response.json({ ok: false }, { status: 500 });
-//   }
-// }
