@@ -1,4 +1,5 @@
-import React, { FormEvent, useState } from "react";
+
+import React, { useState } from "react";
 
 interface ModalProps {
   isOpen: boolean;
@@ -9,22 +10,23 @@ const Modal: React.FC<ModalProps> = ({ isOpen, toggleModal }) => {
   const [loading, setLoading] = useState(false);
   const [status, setStatus] = useState<"idle" | "success" | "error">("idle");
 
-  const contact = async (event: FormEvent<HTMLFormElement>) => {
+  const contact = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setLoading(true);
     setStatus("idle");
 
     const formData = new FormData(event.currentTarget);
 
+    // Type-safe extraction from FormData
+    const user_name = formData.get("user_name") as string;
+    const user_email = formData.get("user_email") as string;
+    const message = formData.get("message") as string;
+
     try {
       const res = await fetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          user_name: formData.get("user_name"),
-          user_email: formData.get("user_email"),
-          message: formData.get("message"),
-        }),
+        body: JSON.stringify({ user_name, user_email, message }),
       });
 
       if (!res.ok) throw new Error();
@@ -48,7 +50,6 @@ const Modal: React.FC<ModalProps> = ({ isOpen, toggleModal }) => {
   return (
     <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
       <div className="bg-white dark:bg-gray-900 w-full max-w-md rounded-2xl shadow-2xl p-6 relative">
-        {/* Close */}
         <button
           onClick={toggleModal}
           className="absolute top-3 right-4 text-2xl text-gray-500 hover:text-black dark:hover:text-white"
@@ -65,7 +66,6 @@ const Modal: React.FC<ModalProps> = ({ isOpen, toggleModal }) => {
             required
             className="border rounded-lg p-3 focus:ring-2 focus:ring-blue-500 dark:bg-gray-800"
           />
-
           <input
             name="user_email"
             type="email"
@@ -73,7 +73,6 @@ const Modal: React.FC<ModalProps> = ({ isOpen, toggleModal }) => {
             required
             className="border rounded-lg p-3 focus:ring-2 focus:ring-blue-500 dark:bg-gray-800"
           />
-
           <textarea
             name="message"
             placeholder="Your message"
@@ -83,11 +82,8 @@ const Modal: React.FC<ModalProps> = ({ isOpen, toggleModal }) => {
           />
 
           {status === "success" && (
-            <p className="text-green-600 text-sm text-center">
-              ✅ Message sent!
-            </p>
+            <p className="text-green-600 text-sm text-center">✅ Message sent!</p>
           )}
-
           {status === "error" && (
             <p className="text-red-600 text-sm text-center">
               ❌ Something went wrong. Try again.
