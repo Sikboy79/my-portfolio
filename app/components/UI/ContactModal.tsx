@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 
+
 interface ModalProps {
   isOpen: boolean;
   toggleModal: () => void;

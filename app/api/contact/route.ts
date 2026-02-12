@@ -1,12 +1,12 @@
 import { Resend } from "resend";
+import { NextResponse } from "next/server"; // ✅ use NextResponse
 
 export async function POST(req: Request) {
   try {
     const apiKey = process.env.RESEND_API_KEY;
-
     if (!apiKey) {
       console.error("Missing RESEND_API_KEY");
-      return Response.json({ success: false }, { status: 500 });
+      return NextResponse.json({ success: false }, { status: 500 });
     }
 
     const resend = new Resend(apiKey);
@@ -21,9 +21,9 @@ export async function POST(req: Request) {
       text: message,
     });
 
-    return Response.json({ success: true });
+    return NextResponse.json({ success: true }); // ✅ guaranteed valid JSON
   } catch (err) {
     console.error("EMAIL ERROR:", err);
-    return Response.json({ success: false }, { status: 500 });
+    return NextResponse.json({ success: false }, { status: 500 });
   }
 }
