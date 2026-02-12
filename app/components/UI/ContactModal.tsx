@@ -37,9 +37,14 @@ const Modal: React.FC<ModalProps> = ({ isOpen, toggleModal }) => {
         body: JSON.stringify({ user_name, user_email, message }),
       });
 
-      const data = await res.json();
+      // 🔥 FIRST check HTTP status
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
 
-      if (!data.success) throw new Error();
+      const data = await res.json();
+      console.log("status:", res.status);
+      console.log("text:", await res.text());
+
+      if (data.success !== true) throw new Error("API returned false");
 
       setStatus("success");
       event.currentTarget.reset();
