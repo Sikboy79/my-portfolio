@@ -1,5 +1,6 @@
 "use client";
-import React, { FormEvent } from "react";
+
+import React, { FormEvent, useState } from "react";
 import {
   SiJavascript,
   SiHtml5,
@@ -26,71 +27,131 @@ interface ModalProps {
 }
 
 const Modal: React.FC<ModalProps> = ({ isOpen, toggleModal }) => {
-  const contact = (event: FormEvent<HTMLFormElement>) => {
+  const [loading, setLoading] = useState(false);
+  const [status, setStatus] = useState<"idle" | "success" | "error">("idle");
+
+  const contact = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    alert("Contact form submitted!");
+    setLoading(true);
+    setStatus("idle");
+
+    const formData = new FormData(event.currentTarget);
+
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          user_name: formData.get("user_name"),
+          user_email: formData.get("user_email"),
+          message: formData.get("message"),
+        }),
+      });
+
+      if (!res.ok) throw new Error();
+
+      setStatus("success");
+      event.currentTarget.reset();
+
+      // close after short delay
+      setTimeout(() => {
+        toggleModal();
+        setStatus("idle");
+      }, 1200);
+    } catch {
+      setStatus("error");
+    } finally {
+      setLoading(false);
+    }
   };
 
   if (!isOpen) return null;
 
   return (
-    <div className="modal fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-      <div className="bg-white dark:bg-gray-800 p-8 rounded-lg relative w-11/12 max-w-xl shadow-lg transition-colors duration-300">
+    <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+      <div className="bg-white dark:bg-gray-900 w-full max-w-xl rounded-2xl shadow-2xl p-8 relative animate-in fade-in zoom-in-95">
+
+        {/* Close */}
         <button
-          className="absolute top-2 right-2 text-black dark:text-white text-2xl"
           onClick={toggleModal}
+          className="absolute top-3 right-4 text-2xl text-gray-500 hover:text-black dark:hover:text-white"
         >
           ×
         </button>
+
+        {/* Header */}
         <h3 className="text-2xl font-bold mb-2 text-gray-900 dark:text-white">
-          Contact Me:
+          Contact Me
         </h3>
-        <p className="mb-4 text-gray-700 dark:text-gray-300">
-          I am a Frontend Software Developer, passionate about building
-          beautiful, functional, performant websites and apps.
+
+        <p className="text-gray-600 dark:text-gray-400 mb-6">
+          Have a project or opportunity? Send me a message and I’ll reply soon.
         </p>
-        <div className="flex flex-wrap gap-5 mb-4 justify-center">
+
+        {/* Tech icons */}
+        <div className="flex flex-wrap gap-4 mb-6 justify-center">
           {techStack.map((tech, idx) => {
             const Icon = tech.icon;
             return (
               <div
                 key={idx}
-                className="flex flex-col items-center gap-1 hover:scale-110 transition-transform"
+                className="flex flex-col items-center text-xs hover:scale-110 transition"
               >
-                <Icon size={36} className={tech.color} />
-                <span className="text-sm text-gray-800 dark:text-gray-200">
+                <Icon size={28} className={tech.color} />
+                <span className="text-gray-600 dark:text-gray-300">
                   {tech.name}
                 </span>
               </div>
             );
           })}
         </div>
-        <form onSubmit={contact} className="flex flex-col gap-2">
+
+        {/* Form */}
+        <form onSubmit={contact} className="flex flex-col gap-3">
+
           <input
-            type="text"
             name="user_name"
-            placeholder="Name"
+            placeholder="Your name"
             required
-            className="border p-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
+            className="border rounded-lg p-3 focus:ring-2 focus:ring-blue-500 dark:bg-gray-800"
           />
+
           <input
-            type="email"
             name="user_email"
-            placeholder="Email"
+            type="email"
+            placeholder="Your email"
             required
-            className="border p-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
+            className="border rounded-lg p-3 focus:ring-2 focus:ring-blue-500 dark:bg-gray-800"
           />
+
           <textarea
             name="message"
-            placeholder="Message"
+            placeholder="Your message"
+            rows={4}
             required
-            className="border p-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
+            className="border rounded-lg p-3 focus:ring-2 focus:ring-blue-500 dark:bg-gray-800 resize-none"
           />
+
+          {/* Status messages */}
+          {status === "success" && (
+            <p className="text-green-600 text-sm text-center">
+              ✅ Message sent successfully!
+            </p>
+          )}
+
+          {status === "error" && (
+            <p className="text-red-600 text-sm text-center">
+              ❌ Failed to send. Try again.
+            </p>
+          )}
+
+          {/* Button */}
           <button
             type="submit"
-            className=" m-auto bg-blue-500 text-white p-2 rounded mt-2 hover:bg-blue-600 transition-colors"
+            disabled={loading}
+            className="mt-2 bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-lg font-medium transition disabled:opacity-60"
           >
-            Send
+            {loading ? "Sending..." : "Send Message"}
           </button>
         </form>
       </div>
