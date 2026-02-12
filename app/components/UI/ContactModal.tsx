@@ -48,7 +48,6 @@ const Modal: React.FC<ModalProps> = ({ isOpen, toggleModal }) => {
   return (
     <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
       <div className="bg-white dark:bg-gray-900 w-full max-w-md rounded-2xl shadow-2xl p-6 relative">
-
         {/* Close */}
         <button
           onClick={toggleModal}
@@ -57,12 +56,9 @@ const Modal: React.FC<ModalProps> = ({ isOpen, toggleModal }) => {
           ×
         </button>
 
-        <h2 className="text-2xl font-bold mb-4 text-center">
-          Contact Me
-        </h2>
+        <h2 className="text-2xl font-bold mb-4 text-center">Contact Me</h2>
 
         <form onSubmit={contact} className="flex flex-col gap-3">
-
           <input
             name="user_name"
             placeholder="Your name"
