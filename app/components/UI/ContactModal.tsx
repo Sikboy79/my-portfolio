@@ -16,19 +16,9 @@ const Modal: React.FC<ModalProps> = ({ isOpen, toggleModal }) => {
 
     const formData = new FormData(event.currentTarget);
 
-    const user_name = formData.get("user_name");
-    const user_email = formData.get("user_email");
-    const message = formData.get("message");
-
-    if (
-      typeof user_name !== "string" ||
-      typeof user_email !== "string" ||
-      typeof message !== "string"
-    ) {
-      setStatus("error");
-      setLoading(false);
-      return;
-    }
+    const user_name = formData.get("user_name") as string;
+    const user_email = formData.get("user_email") as string;
+    const message = formData.get("message") as string;
 
     try {
       const res = await fetch("/api/contact", {
@@ -37,19 +27,12 @@ const Modal: React.FC<ModalProps> = ({ isOpen, toggleModal }) => {
         body: JSON.stringify({ user_name, user_email, message }),
       });
 
-      // 🔥 FIRST check HTTP status
-      if (!res.ok) throw new Error(`HTTP ${res.status}`);
-
-      const data = await res.json();
-      console.log("status:", res.status);
-      console.log("text:", await res.text());
-
-      if (data.success !== true) throw new Error("API returned false");
+      if (!res.ok) throw new Error();
 
       setStatus("success");
       event.currentTarget.reset();
 
-      setTimeout(toggleModal,1200);
+      setTimeout(toggleModal, 1200);
     } catch {
       setStatus("error");
     } finally {
