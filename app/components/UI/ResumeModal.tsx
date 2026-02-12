@@ -60,7 +60,7 @@ export default function ResumeModal({ open, onClose }: ResumeModalProps) {
             <div className="mt-4 md:mt-0 flex flex-col md:flex-row md:items-center gap-3 text-sm">
               <div className="flex items-center gap-2"><FaMapMarkerAlt /> Denver, CO USA</div>
               <div className="flex items-center gap-2"><FaEnvelope /> TheSikworks@gmail.com</div>
-              <div className="flex items-center gap-2"><FaLinkedin /> <a href="https://www.linkedin.com/feed/" className="underline hover:text-blue-500">LinkedIn</a></div>
+              <div className="flex items-center gap-2"><FaLinkedin /> <a href="https://www.linkedin.com/in/ryan-cook-8444b03a5/" className="underline hover:text-blue-500">LinkedIn</a></div>
               <div className="flex items-center gap-2"><FaGithub /> <a href="https://github.com/Sikboy79" className="underline hover:text-gray-500">GitHub</a></div>
             </div>
           </div>

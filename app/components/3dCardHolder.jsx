@@ -34,7 +34,7 @@ function Cards() {
 
   const [logo, setLogo] = useState(null);
   useEffect(() => {
-    new THREE.TextureLoader().load("./assets/MRCB&W.png", setLogo);
+    new THREE.TextureLoader().load("/assets/MRCB&W.png", setLogo);
   }, []);
 
   return (

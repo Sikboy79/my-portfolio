@@ -5,21 +5,27 @@ import ProjectCard from "./UI/ProjectCard";
 const projectList = [
   {
     title: "Skinstric Internship",
+    overview: "Internship project demonstrating API integration and interactive front-end components.",
     tech: "NextJS, Tailwind, Typescript, API",
-    imgSrc: "/assets/Skinstric.png",
+    imgSrc: "/assets/skinstric.png",
     link: "https://skinstric-internship-eta.vercel.app/",
+    codeLink: "https://github.com/yourusername/skinstric-internship",
   },
   {
-    title: "Summarist library",
+    title: "Summarist Library",
+    overview: "A library app that summarizes content and integrates Stripe for payments.",
     tech: "NextJS, Tailwind, Typescript, API, Stripe",
-    imgSrc: "/assets/Summarist.png",
+    imgSrc: "/assets/summarist.png",
     link: "https://ryan-advanced-virtual-internship.vercel.app/",
+    codeLink: "https://github.com/yourusername/summarist-library",
   },
   {
-    title: "NFT digital asset library",
-    tech: "Next.js, Tailwind, Typesctipt, API",
+    title: "NFT Digital Asset Library",
+    overview: "Showcases NFT collections with a dynamic front-end and API integration.",
+    tech: "Next.js, Tailwind, Typescript, API",
     imgSrc: "/assets/ultraverse.png",
     link: "https://ryan-internship-theta.vercel.app/",
+    codeLink: "https://github.com/yourusername/nft-digital-library",
   },
 ];
 
@@ -31,11 +37,21 @@ const Projects: React.FC = () => {
     >
       <div className="max-w-[1400px] mx-auto px-4">
         <h1 className="text-3xl md:text-4xl font-bold mb-8 text-gray-900 dark:text-white">
-          Here are some of my <span className="text-blue-500">projects</span>
+          Here are some of my{" "}
+          <span className="text-blue-500">projects</span>
         </h1>
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {projectList.map((project, i) => (
-            <ProjectCard key={i} {...project} />
+            <ProjectCard
+              key={i}
+              title={project.title}
+              overview={project.overview}
+              tech={project.tech}
+              imgSrc={project.imgSrc}
+              link={project.link}
+              codeLink={project.codeLink}
+            />
           ))}
         </div>
       </div>
