@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 
 interface ModalProps {
@@ -18,9 +17,24 @@ const Modal: React.FC<ModalProps> = ({ isOpen, toggleModal }) => {
     const formData = new FormData(event.currentTarget);
 
     // Type-safe extraction from FormData
-    const user_name = formData.get("user_name") as string;
-    const user_email = formData.get("user_email") as string;
-    const message = formData.get("message") as string;
+
+    const user_name = formData.get("user_name");
+    const user_email = formData.get("user_email");
+    const message = formData.get("message");
+
+    if (
+      typeof user_name !== "string" ||
+      typeof user_email !== "string" ||
+      typeof message !== "string"
+    ) {
+      setStatus("error");
+      setLoading(false);
+      return;
+    }
+
+    // const user_name = formData.get("user_name") as string;
+    // const user_email = formData.get("user_email") as string;
+    // const message = formData.get("message") as string;
 
     try {
       const res = await fetch("/api/contact", {
@@ -82,7 +96,9 @@ const Modal: React.FC<ModalProps> = ({ isOpen, toggleModal }) => {
           />
 
           {status === "success" && (
-            <p className="text-green-600 text-sm text-center">✅ Message sent!</p>
+            <p className="text-green-600 text-sm text-center">
+              ✅ Message sent!
+            </p>
           )}
           {status === "error" && (
             <p className="text-red-600 text-sm text-center">
