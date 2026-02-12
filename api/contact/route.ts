@@ -1,10 +1,16 @@
+
 import nodemailer from "nodemailer";
+
+
+
 
 export async function POST(req: Request) {
   try {
-    const { user_name, user_email, message } = await req.json();
+    console.log("Contact API hit");
 
-    // ✅ THIS is where transporter goes (server only)
+    const body = await req.json();
+    console.log(body);
+
     const transporter = nodemailer.createTransport({
       host: process.env.SMTP_HOST,
       port: Number(process.env.SMTP_PORT),
@@ -16,14 +22,17 @@ export async function POST(req: Request) {
     });
 
     await transporter.sendMail({
-      from: `"Portfolio Contact" <${process.env.SMTP_USER}>`,
+      from: `"Portfolio" <${process.env.SMTP_USER}>`,
       to: process.env.CONTACT_EMAIL,
-      subject: `Message from ${user_name}`,
-      text: `${message}\n\nFrom: ${user_email}`,
+      subject: "New message",
+      text: body.message,
     });
+
+    console.log("Email sent");
 
     return Response.json({ ok: true });
   } catch (err) {
+    console.error("EMAIL ERROR:", err);
     return Response.json({ ok: false }, { status: 500 });
   }
 }
