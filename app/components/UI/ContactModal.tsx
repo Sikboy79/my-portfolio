@@ -49,10 +49,7 @@ const Modal: React.FC<ModalProps> = ({ isOpen, toggleModal }) => {
       setStatus("success");
       event.currentTarget.reset();
 
-      setTimeout(() => {
-        toggleModal();
-        setStatus("idle");
-      }, 1200);
+      setTimeout(toggleModal,1200);
     } catch {
       setStatus("error");
     } finally {
