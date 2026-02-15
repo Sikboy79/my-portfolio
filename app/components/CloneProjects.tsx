@@ -19,14 +19,14 @@ const projectList = [
     overview: "Front-end clone of MacBook Pro landing page replicating layout and responsive design.",
     tech: (["HTML", "CSS", "JavaScript"] as TechKey[]).map((t) => techIconsMap[t]),
     imgSrc: "/assets/macbook-clone.png", // add your image
-    codeLink: "https://github.com/yourusername/macbook-clone",
+    codeLink: "https://github.com/Sikboy79/macbookPro-Clone_React",
   },
   {
     title: "Netflix Clone",
     overview: "Recreated Netflix UI with responsive grids, navigation, and media cards using React and Tailwind.",
     tech: (["React", "Tailwind"] as TechKey[]).map((t) => techIconsMap[t]),
     imgSrc: "/assets/netflix-clone.png", // add your image
-    codeLink: "https://github.com/yourusername/netflix-clone",
+    codeLink: "https://github.com/Sikboy79/Netflix-clone-fullstack",
   },
 ];
 
