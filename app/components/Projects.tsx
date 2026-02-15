@@ -9,7 +9,7 @@ const projectList = [
     tech: "NextJS, Tailwind, Typescript, API",
     imgSrc: "/assets/Skinstric.png",
     link: "https://skinstric-internship-eta.vercel.app/",
-    codeLink: "https://github.com/yourusername/skinstric-internship",
+    codeLink: "https://github.com/Sikboy79/skinstric-internship",
   },
   {
     title: "Summarist Library",
@@ -17,7 +17,7 @@ const projectList = [
     tech: "NextJS, Tailwind, Typescript, API, Stripe",
     imgSrc: "/assets/Summarist.png",
     link: "https://ryan-advanced-virtual-internship.vercel.app/",
-    codeLink: "https://github.com/yourusername/summarist-library",
+    codeLink: "https://github.com/Sikboy79/ryan-advanced-virtual-internship",
   },
   {
     title: "NFT Digital Asset Library",
@@ -25,7 +25,7 @@ const projectList = [
     tech: "Next.js, Tailwind, Typescript, API",
     imgSrc: "/assets/ultraverse.png",
     link: "https://ryan-internship-theta.vercel.app/",
-    codeLink: "https://github.com/yourusername/nft-digital-library",
+    codeLink: "https://github.com/Sikboy79/Ryan-internship",
   },
 ];
 

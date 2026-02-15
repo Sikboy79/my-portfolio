@@ -61,7 +61,7 @@ const Modal: React.FC<ModalProps> = ({ isOpen, toggleModal }) => {
     }
   };
 
-  // if (!isOpen) return null;
+if (!isOpen) return null;
 
   return (
     <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
