@@ -1,14 +1,14 @@
 "use client";
-import React from "react";
+import React, { ReactNode } from "react";
 import Image from "next/image";
 
 interface ProjectCardProps {
   title: string;
-  overview: string; 
-  tech: string; 
+  overview: string;
+  tech: ReactNode | ReactNode[]; // accept a single icon or array of icons
   imgSrc: string;
   link?: string;
-  codeLink?: string; 
+  codeLink?: string;
 }
 
 const ProjectCard: React.FC<ProjectCardProps> = ({
@@ -19,12 +19,12 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
   link,
   codeLink,
 }) => {
-  const techArray = tech.split(",").map(t => t.trim());
+  // ensure tech is always an array
+  const techArray = Array.isArray(tech) ? tech : [tech];
 
   const cardContent = (
     <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md hover:shadow-xl hover:border-blue-400 border-2 border-transparent overflow-hidden transform transition duration-300 cursor-pointer flex flex-col">
-      
-      {/* Thumbnail with shadow border and hover zoom */}
+      {/* Thumbnail */}
       <div className="relative aspect-[16/9] w-full overflow-hidden rounded-t-lg border border-gray-200 dark:border-gray-700 shadow-sm">
         <Image
           src={imgSrc}
@@ -42,18 +42,13 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
       <div className="p-4 flex flex-col flex-1 justify-between">
         <div>
           <h2 className="text-lg font-bold text-gray-900 dark:text-white">{title}</h2>
-
-          {/* NEW: One-line overview */}
           <p className="text-gray-600 dark:text-gray-300 mt-1 text-sm">{overview}</p>
 
-          {/* Tech badges */}
+          {/* Tech icons */}
           <div className="flex flex-wrap gap-2 mt-2">
-            {techArray.map((t, i) => (
-              <span
-                key={i}
-                className="text-xs bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-300 px-2 py-1 rounded-full font-medium"
-              >
-                {t}
+            {techArray.map((icon, i) => (
+              <span key={i} className="flex items-center" title={(icon as any)?.props?.title}>
+                {icon}
               </span>
             ))}
           </div>
