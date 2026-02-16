@@ -1,27 +1,26 @@
 "use client";
 
 import React, { useState } from "react";
+import Image from "next/image";
 
 interface ProjectCardProps {
   title: string;
-  slug: string; 
+  slug: string;
   overview: string;
   tech: React.ReactNode[];
   link: string;
-  imgSrc?: string; 
   codeLink: string;
 }
 
 const ProjectCard: React.FC<ProjectCardProps> = ({
   title,
-  slug, 
+  slug,
   overview,
   tech,
   link,
   codeLink,
 }) => {
   const [isHovered, setIsHovered] = useState(false);
-  const [imageLoaded, setImageLoaded] = useState(false);
 
   const imgSrc = `/assets/${slug}.png`;
   const videoSrc = `/mp4/${slug}.mp4`;
@@ -32,21 +31,22 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
+      {/* Image / Video Container */}
       <div className="relative w-full h-56 overflow-hidden">
-        <div
-          className={`absolute inset-0 bg-gray-300 dark:bg-gray-700 blur-xl scale-110 transition-opacity duration-500 ${
-            imageLoaded ? "opacity-0" : "opacity-100"
-          }`}
-        />
-        <img
+
+        {/* Optimized Next.js Image */}
+        <Image
           src={imgSrc}
           alt={title}
-          loading="lazy"
-          onLoad={() => setImageLoaded(true)}
-          className={`absolute inset-0 w-full h-full object-cover transition-all duration-500 ${
+          fill
+          sizes="(max-width: 768px) 100vw, 33vw"
+          className={`object-cover transition-all duration-500 ${
             isHovered ? "opacity-0 scale-105" : "opacity-100 scale-100"
           }`}
+          priority={false}
         />
+
+        {/* Hover Video */}
         <video
           src={isHovered ? videoSrc : undefined}
           muted
@@ -59,18 +59,23 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
           }`}
         />
       </div>
+
+      {/* Content */}
       <div className="p-5">
         <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
           {title}
         </h3>
+
         <p className="text-gray-600 dark:text-gray-300 text-sm mb-4">
           {overview}
         </p>
+
         <div className="flex flex-wrap gap-2 mb-4">
           {tech.map((icon, i) => (
             <span key={i}>{icon}</span>
           ))}
         </div>
+
         <div className="flex gap-4">
           <a
             href={link}
@@ -80,6 +85,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
           >
             Live Demo
           </a>
+
           <a
             href={codeLink}
             target="_blank"
