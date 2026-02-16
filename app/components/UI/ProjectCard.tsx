@@ -8,6 +8,7 @@ interface ProjectCardProps {
   overview: string;
   tech: React.ReactNode[];
   link: string;
+  imgSrc?: string; 
   codeLink: string;
 }
 

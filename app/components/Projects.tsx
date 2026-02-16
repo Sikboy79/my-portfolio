@@ -66,7 +66,7 @@ const Projects: React.FC = () => {
             <ProjectCard
               key={project.title}
               title={project.title}
-              slug={project.slug} // 
+              slug={project.slug} 
               overview={project.overview}
               tech={project.tech.map((t) => techIconsMap[t])}
               link={project.link}

@@ -1,7 +1,13 @@
 "use client";
 import React, { ReactNode } from "react";
 import ProjectCard from "./UI/ProjectCard";
-import { SiHtml5, SiCss3, SiJavascript, SiReact, SiTailwindcss } from "react-icons/si";
+import {
+  SiHtml5,
+  SiCss3,
+  SiJavascript,
+  SiReact,
+  SiTailwindcss,
+} from "react-icons/si";
 
 type TechKey = "HTML" | "CSS" | "JavaScript" | "React" | "Tailwind";
 
@@ -16,16 +22,22 @@ const techIconsMap: Record<TechKey, ReactNode> = {
 const projectList = [
   {
     title: "MacBook Pro Clone",
-    overview: "Front-end clone of MacBook Pro landing page replicating layout and responsive design.",
-    tech: (["HTML", "CSS", "JavaScript"] as TechKey[]).map((t) => techIconsMap[t]),
-    imgSrc: "/assets/macbook-clone.png", // add your image
+    slug: "macbook",
+    overview:
+      "Front-end clone of MacBook Pro landing page replicating layout and responsive design.",
+    tech: (["HTML", "CSS", "JavaScript"] as TechKey[]).map(
+      (t) => techIconsMap[t],
+    ),
+    link: "https://skinstric-internship-eta.vercel.app/",
     codeLink: "https://github.com/Sikboy79/macbookPro-Clone_React",
   },
   {
     title: "Netflix Clone",
-    overview: "Recreated Netflix UI with responsive grids, navigation, and media cards using React and Tailwind.",
+    slug: "netflix",
+    overview:
+      "Recreated Netflix UI with responsive grids, navigation, and media cards using React and Tailwind.",
     tech: (["React", "Tailwind"] as TechKey[]).map((t) => techIconsMap[t]),
-    imgSrc: "/assets/netflix-clone.png", // add your image
+    link: "https://skinstric-internship-eta.vercel.app/",
     codeLink: "https://github.com/Sikboy79/Netflix-clone-fullstack",
   },
 ];
@@ -38,17 +50,19 @@ const CloneProjects: React.FC = () => {
     >
       <div className="max-w-[1400px] mx-auto px-4">
         <h1 className="text-3xl md:text-4xl font-bold mb-8 text-gray-900 dark:text-white">
-          Here are some of my <span className="text-blue-500">cloned projects</span>
+          Here are some of my{" "}
+          <span className="text-blue-500">cloned projects</span>
         </h1>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {projectList.map((project, i) => (
             <ProjectCard
-              key={i}
+              key={project.title}
               title={project.title}
+              slug={project.slug}
               overview={project.overview}
-              tech={project.tech} 
-              imgSrc={project.imgSrc}
+              tech={project.tech}
+              link={project.link}
               codeLink={project.codeLink}
             />
           ))}
