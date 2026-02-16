@@ -1,95 +1,96 @@
 "use client";
-import React, { ReactNode } from "react";
-import Image from "next/image";
+
+import React, { useState } from "react";
 
 interface ProjectCardProps {
   title: string;
+  slug: string; 
   overview: string;
-  tech: ReactNode | ReactNode[]; // accept a single icon or array of icons
-  imgSrc: string;
-  link?: string;
-  codeLink?: string;
+  tech: React.ReactNode[];
+  link: string;
+  codeLink: string;
 }
 
 const ProjectCard: React.FC<ProjectCardProps> = ({
   title,
+  slug, 
   overview,
   tech,
-  imgSrc,
   link,
   codeLink,
 }) => {
-  // ensure tech is always an array
-  const techArray = Array.isArray(tech) ? tech : [tech];
+  const [isHovered, setIsHovered] = useState(false);
+  const [imageLoaded, setImageLoaded] = useState(false);
 
-  const cardContent = (
-    <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md hover:shadow-xl hover:border-blue-400 border-2 border-transparent overflow-hidden transform transition duration-300 cursor-pointer flex flex-col">
-      {/* Thumbnail */}
-      <div className="relative aspect-[16/9] w-full overflow-hidden rounded-t-lg border border-gray-200 dark:border-gray-700 shadow-sm">
-        <Image
+  const imgSrc = `/assets/${slug}.png`;
+  const videoSrc = `/mp4/${slug}.mp4`;
+
+  return (
+    <div
+      className="group bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden transition-transform duration-300 hover:scale-[1.02]"
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+    >
+      <div className="relative w-full h-56 overflow-hidden">
+        <div
+          className={`absolute inset-0 bg-gray-300 dark:bg-gray-700 blur-xl scale-110 transition-opacity duration-500 ${
+            imageLoaded ? "opacity-0" : "opacity-100"
+          }`}
+        />
+        <img
           src={imgSrc}
-          alt={`Screenshot of ${title} project`}
-          fill
-          className="object-cover transition-transform duration-500 ease-in-out hover:scale-105"
-          placeholder="blur"
-          blurDataURL="/assets/placeholder.png"
+          alt={title}
           loading="lazy"
-          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+          onLoad={() => setImageLoaded(true)}
+          className={`absolute inset-0 w-full h-full object-cover transition-all duration-500 ${
+            isHovered ? "opacity-0 scale-105" : "opacity-100 scale-100"
+          }`}
+        />
+        <video
+          src={isHovered ? videoSrc : undefined}
+          muted
+          loop
+          autoPlay
+          playsInline
+          preload="none"
+          className={`absolute inset-0 w-full h-full object-cover transition-all duration-500 ${
+            isHovered ? "opacity-100 scale-100" : "opacity-0 scale-105"
+          }`}
         />
       </div>
-
-      {/* Content */}
-      <div className="p-4 flex flex-col flex-1 justify-between">
-        <div>
-          <h2 className="text-lg font-bold text-gray-900 dark:text-white">{title}</h2>
-          <p className="text-gray-600 dark:text-gray-300 mt-1 text-sm">{overview}</p>
-
-          {/* Tech icons */}
-          <div className="flex flex-wrap gap-2 mt-2">
-            {techArray.map((icon, i) => (
-              <span key={i} className="flex items-center" title={(icon as any)?.props?.title}>
-                {icon}
-              </span>
-            ))}
-          </div>
+      <div className="p-5">
+        <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
+          {title}
+        </h3>
+        <p className="text-gray-600 dark:text-gray-300 text-sm mb-4">
+          {overview}
+        </p>
+        <div className="flex flex-wrap gap-2 mb-4">
+          {tech.map((icon, i) => (
+            <span key={i}>{icon}</span>
+          ))}
         </div>
-
-        {/* Buttons */}
-        <div className="mt-4 flex gap-2">
-          {link && (
-            <a
-              href={link}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex-1 text-center bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-full transition"
-            >
-              Live Demo
-            </a>
-          )}
-          {codeLink && (
-            <a
-              href={codeLink}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex-1 text-center bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 text-gray-800 dark:text-gray-200 font-semibold py-2 px-4 rounded-full transition"
-            >
-              View Code
-            </a>
-          )}
+        <div className="flex gap-4">
+          <a
+            href={link}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-blue-500 hover:underline text-sm font-medium"
+          >
+            Live Demo
+          </a>
+          <a
+            href={codeLink}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-gray-500 hover:underline text-sm font-medium"
+          >
+            Code
+          </a>
         </div>
       </div>
     </div>
   );
-
-  if (link && !codeLink) {
-    return (
-      <a href={link} target="_blank" rel="noopener noreferrer" className="block">
-        {cardContent}
-      </a>
-    );
-  }
-
-  return cardContent;
 };
 
 export default ProjectCard;
