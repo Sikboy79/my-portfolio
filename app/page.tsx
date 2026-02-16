@@ -5,13 +5,12 @@ import ThreeDCardHolder from "./components/3dCardHolder";
 import Projects from "./components/Projects";
 import Modal from "./components/UI/ContactModal";
 import Footer from "./components/Footer";
-import LaptopScreen from "./components/laptopScreen";
+import LaptopScreen from "./components/UI/laptopScreen";
 import CloneProjects from "./components/CloneProjects";
 import ResumeModal from "./components/UI/ResumeModal";
 
 export default function Home() {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  // const [contrastToggle, setContrastToggle] = useState(false);
   const [resumeOpen, setResumeOpen] = useState(false);
   const toggleModal = () => setIsModalOpen(!isModalOpen);
   const [darkMode, setDarkMode] = useState(false);
@@ -36,7 +35,7 @@ export default function Home() {
             openResume={() => setResumeOpen(true)}
           />
 
-          <div className="absolute top-[85%] lg:top-[70%] left-[55%] lg:left-[49%] sm:left-[60%] transform -translate-x-1/2 -translate-y-1/2 w-full z-20 flex justify-center items-center scale-50 sm:scale-75 md:scale-75 lg:scale-100">
+          <div className="hidden sm:flex absolute top-[85%] lg:top-[70%] left-[55%] lg:left-[55%] sm:left-[60%] transform -translate-x-1/2 -translate-y-1/2 w-full z-20 justify-center items-center scale-50 sm:scale-75 md:scale-75 lg:scale-100">
             <ThreeDCardHolder />
           </div>
 
@@ -44,7 +43,7 @@ export default function Home() {
           <div className="relative w-full max-w-[1200px] mx-auto">
             <img src="/assets/desk-bg.png" className="w-full h-auto" />
             <div
-              className="absolute top-[31.2%] left-[15%] w-[22%] h-[26%] sm:w-[21.5%] sm:h-[25.7%] lg:w-[20.7%]"
+              className="absolute top-[33%] left-[18%] w-[22%] h-[26%] sm:w-[22.5%] sm:h-[25.7%] sm:left-[18%] sm:top-[33%] lg:w-[21.7%] lg:left-[18%] lg:top-[33%]"
               style={{
                 perspective: "90px",
                 transformOrigin: "left center",
@@ -70,7 +69,7 @@ export default function Home() {
           className="w-full py-16 md:py-5 bg-white dark:bg-gray-900 transition-colors duration-300"
         >
           <div className="w-full max-w-[1400px] mx-auto px-4">
-            <CloneProjects />
+            {/* <CloneProjects /> */}
           </div>
         </section>
 
