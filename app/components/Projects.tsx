@@ -32,7 +32,7 @@ const projectList = [
   },
   {
     title: "Summarist Library",
-    slug: "summarist",
+    slug: "ultraverse",
     overview:
       "A library app that summarizes content and integrates Stripe for payments.",
     tech: ["NextJS", "Tailwind", "Typescript", "API", "Stripe"] as TechKey[],
