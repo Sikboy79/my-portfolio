@@ -33,7 +33,6 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
     >
       {/* Image / Video Container */}
       <div className="relative w-full h-56 overflow-hidden">
-
         {/* Optimized Next.js Image */}
         <Image
           src={imgSrc}
@@ -47,17 +46,17 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
         />
 
         {/* Hover Video */}
-        <video
-          src={isHovered ? videoSrc : undefined}
-          muted
-          loop
-          autoPlay
-          playsInline
-          preload="none"
-          className={`absolute inset-0 w-full h-full object-cover transition-all duration-500 ${
-            isHovered ? "opacity-100 scale-100" : "opacity-0 scale-105"
-          }`}
-        />
+        {isHovered && (
+          <video
+            src={videoSrc}
+            muted
+            loop
+            autoPlay
+            playsInline
+            preload="none"
+            className="absolute inset-0 w-full h-full object-cover"
+          />
+        )}
       </div>
 
       {/* Content */}
