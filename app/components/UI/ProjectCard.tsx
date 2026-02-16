@@ -39,7 +39,6 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
           src={imgSrc}
           alt={title}
           fill
-          unoptimized 
           sizes="(max-width: 768px) 100vw, 33vw"
           className={`object-cover transition-all duration-500 ${
             isHovered ? "opacity-0 scale-105" : "opacity-100 scale-100"
