@@ -28,7 +28,7 @@ const projectList = [
     tech: (["HTML", "CSS", "JavaScript"] as TechKey[]).map(
       (t) => techIconsMap[t],
     ),
-    link: "https://skinstric-internship-eta.vercel.app/",
+    link: "",
     codeLink: "https://github.com/Sikboy79/macbookPro-Clone_React",
   },
   {
@@ -37,7 +37,7 @@ const projectList = [
     overview:
       "Recreated Netflix UI with responsive grids, navigation, and media cards using React and Tailwind.",
     tech: (["React", "Tailwind"] as TechKey[]).map((t) => techIconsMap[t]),
-    link: "https://skinstric-internship-eta.vercel.app/",
+    link: "",
     codeLink: "https://github.com/Sikboy79/Netflix-clone-fullstack",
   },
 ];
