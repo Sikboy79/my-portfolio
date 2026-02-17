@@ -69,7 +69,7 @@ export default function Home() {
           className="w-full py-16 md:py-5 bg-white dark:bg-gray-900 transition-colors duration-300"
         >
           <div className="w-full max-w-[1400px] mx-auto px-4">
-            {/* <CloneProjects /> */}
+            <CloneProjects />
           </div>
         </section>
 
