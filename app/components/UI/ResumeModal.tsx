@@ -130,7 +130,7 @@ export default function ResumeModal({ open, onClose }: ResumeModalProps) {
               },
               {
                 title: "Netflix Clone",
-                demo: "#",
+                demo: "https://sikboy79.github.io/Movie-clone-fullstack/#/",
                 github: "https://github.com/Sikboy79/Netflix-clone-fullstack",
                 bullets: [
                   "Developed a fullstack streaming platform clone with authentication, movie browsing, and responsive design.",
