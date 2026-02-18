@@ -10,6 +10,7 @@ interface ProjectCardProps {
   tech: React.ReactNode[];
   link: string;
   codeLink: string;
+  showLive?: boolean;
 }
 
 const ProjectCard: React.FC<ProjectCardProps> = ({
