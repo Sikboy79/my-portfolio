@@ -121,7 +121,6 @@ export default function ResumeModal({ open, onClose }: ResumeModalProps) {
               },
               {
                 title: "MacBook Pro Clone",
-                demo: "#",
                 github: "https://github.com/Sikboy79/macbookPro-Clone_React",
                 bullets: [
                   "Recreated Apple’s MacBook Pro product page using React, ThreeJS, and TailwindCSS.",
@@ -130,7 +129,6 @@ export default function ResumeModal({ open, onClose }: ResumeModalProps) {
               },
               {
                 title: "Netflix Clone",
-                demo: "https://sikboy79.github.io/Movie-clone-fullstack/#/",
                 github: "https://github.com/Sikboy79/Netflix-clone-fullstack",
                 bullets: [
                   "Developed a fullstack streaming platform clone with authentication, movie browsing, and responsive design.",
